@@ -4,7 +4,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ChartOfAccountController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('prbox')->group(function () {
+Route::prefix('ERPLive')->group(function () {
 
     // Home route
     Route::get('', function () {
