@@ -50,28 +50,41 @@
 </div>
 <script>
 $(document).ready(function() {
-    const groupSelect = $('#id_group').select2({ theme: 'bootstrap4', placeholder: "Select Group", allowClear: true });
-    const preSelect = $('#id_pre').select2({ theme: 'bootstrap4', placeholder: "Select Pre-Level", allowClear: true });
+    const groupSelect = $('#id_group').select2({
+        theme: 'bootstrap4',
+        placeholder: "Select Group",
+        allowClear: true
+    });
+    const preSelect = $('#id_pre').select2({
+        theme: 'bootstrap4',
+        placeholder: "Select Pre-Level",
+        allowClear: true
+    });
 
     function toggleFields() {
+        // Disable Pre-Level only if Group is selected
         if ($('#id_group').val()) {
-            preSelect.prop('disabled', true).trigger('change');
+            preSelect.prop('disabled', true);
         } else {
-            preSelect.prop('disabled', false).trigger('change');
+            preSelect.prop('disabled', false);
         }
+
+        // Disable Group only if Pre-Level is selected
         if ($('#id_pre').val()) {
-            groupSelect.prop('disabled', true).trigger('change');
+            groupSelect.prop('disabled', true);
         } else {
-            groupSelect.prop('disabled', false).trigger('change');
+            groupSelect.prop('disabled', false);
         }
+
+        // Refresh Select2 to reflect the disabled state
+        groupSelect.select2({ theme: 'bootstrap4', placeholder: "Select Group", allowClear: true });
+        preSelect.select2({ theme: 'bootstrap4', placeholder: "Select Pre-Level", allowClear: true });
     }
 
     toggleFields();
+
     $('#id_group, #id_pre').on('change', toggleFields);
 });
+
 </script>
 @endsection
-
-@push('scripts')
-
-@endpush
