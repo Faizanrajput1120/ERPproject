@@ -48,9 +48,6 @@
         <a href="{{ route('levels.index') }}" class="btn btn-link">Back to List</a>
     </form>
 </div>
-@endsection
-
-@push('scripts')
 <script>
 $(document).ready(function() {
     const groupSelect = $('#id_group').select2({ theme: 'bootstrap4', placeholder: "Select Group", allowClear: true });
@@ -73,4 +70,8 @@ $(document).ready(function() {
     $('#id_group, #id_pre').on('change', toggleFields);
 });
 </script>
+@endsection
+
+@push('scripts')
+
 @endpush
