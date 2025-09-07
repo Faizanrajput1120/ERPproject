@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://real-erp.net/ERPLive'),
 
     'asset_url' => env('ASSET_URL'),
 

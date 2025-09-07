@@ -23,7 +23,7 @@ Route::prefix('ERPLive')->group(function () {
   Route::middleware(['auth'])->group(function () {
 
     // Home route
-    Route::get('', function () {
+    Route::get('/dashboard', function () {
         return view('full-width-light.index');
     });
 
