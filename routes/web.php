@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LevelController;
+use App\Http\Controllers\ChartOfAccountController;
+use App\Http\Controllers\ManageMigration;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,18 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('ERPLive')->group(function () {
+
+
+
+  // Home route
+    Route::get('', function () {
+        return view('full-width-light.index');
+    });
+    Route::get('migrate',[  ManageMigration::class,'index'])->name('migrate');
+    // Custom print route (always place BEFORE resource)
+    Route::get('levels/print', [LevelController::class, 'printTree'])->name('levels.print');
+
+    // Resource route (skip show if not needed)
+    Route::resource('levels', LevelController::class)->except(['show']);
+
+    // Other resource routes
+    Route::resource('chart-of-accounts', ChartOfAccountController::class);
+
+
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
 require __DIR__.'/auth.php';
