@@ -20,20 +20,24 @@ Route::prefix('ERPLive')->group(function () {
 
 
 
-  // Home route
+  Route::middleware(['auth'])->group(function () {
+
+    // Home route
     Route::get('', function () {
         return view('full-width-light.index');
     });
-    Route::get('migrate',[  ManageMigration::class,'index'])->name('migrate');
+
+    // Migration route
+    Route::get('migrate', [ManageMigration::class, 'index'])->name('migrate');
+
     // Custom print route (always place BEFORE resource)
     Route::get('levels/print', [LevelController::class, 'printTree'])->name('levels.print');
 
-    // Resource route (skip show if not needed)
+    // Resource routes
     Route::resource('levels', LevelController::class)->except(['show']);
-
-    // Other resource routes
     Route::resource('chart-of-accounts', ChartOfAccountController::class);
 
+});
 
 });
 require __DIR__.'/auth.php';
