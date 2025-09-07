@@ -1,0 +1,49 @@
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+suPHP_ConfigPath /home/insighterp/public_html/probox
+<FilesMatch ".(?:html|php)$">
+SetHandler application/x-httpd-alt-php81
+</FilesMatch>
+
+<FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">
+    SetHandler application/x-httpd-alt-php816__1sphp
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Serve files from the public/storage directory (where the symbolic link points)
+    RewriteRule ^storage/(.*)$ public/storage/$1 [L]  # Correct the path to storage
+
+    # General rewrite rule to ensure requests are routed correctly to the public folder
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<IfModule php7_module>
+   php_value upload_max_filesize 10M
+   php_value post_max_size 10M
+   php_value memory_limit 128M
+   php_value max_execution_time 300
+   php_flag display_errors Off
+   php_value max_input_time 600
+   php_value max_input_vars 10000
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php74"
+   php_flag zlib.output_compression On
+</IfModule>
+<IfModule lsapi_module>
+   php_value upload_max_filesize 10M
+   php_value post_max_size 10M
+   php_value memory_limit 128M
+   php_value max_execution_time 300
+   php_flag display_errors Off
+   php_value max_input_time 600
+   php_value max_input_vars 10000
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php74"
+   php_flag zlib.output_compression On
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
