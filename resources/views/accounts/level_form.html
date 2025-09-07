@@ -1,0 +1,89 @@
+<!-- templates/levels/level_form.html -->
+{% extends 'full-width-light/base.html' %}
+
+{% block title %}{% if level %}Edit Level{% else %}Add Level{% endif %}{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{% if level %}Edit Level{% else %}Add Level{% endif %}</h1>
+    
+    <form method="post" class="bg-white p-4 rounded shadow">
+        {% csrf_token %}
+        
+        <!-- Display non-field errors -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        
+        <div class="form-group">
+            {{ form.level_title.label_tag }}
+            <input type="text" name="level_title" class="form-control" value="{{ form.level_title.value|default:'' }}">
+            {% if form.level_title.errors %}
+                <div class="alert alert-danger">{{ form.level_title.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.group.label_tag }}
+            <select name="group" id="id_group" class="form-control select2">
+                {% for choice in form.group.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.group.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if form.group.errors %}
+                <div class="alert alert-danger">{{ form.group.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.pre.label_tag }}
+            <select name="pre" id="id_pre" class="form-control">
+                {% for choice in form.pre.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.pre.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if form.pre.errors %}
+                <div class="alert alert-danger">{{ form.pre.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <p>Please select either a group or a pre-level:</p>
+        <button type="submit" class="btn btn-primary">
+            {% if level %}Update{% else %}Create{% endif %}
+        </button>
+    </form>
+    <a href="{% url 'level_list' %}" class="btn btn-link mt-3">Back to List</a>
+    
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const groupSelect = $('#id_group').select2({ theme: 'bootstrap4', placeholder: "Select Group", allowClear: true });
+    const preSelect = $('#id_pre').select2({ theme: 'bootstrap4', placeholder: "Select Pre-Level", allowClear: true });
+
+    // Function to toggle fields based on selection
+    function toggleFields() {
+        if ($('#id_group').val()) {
+            preSelect.prop('disabled', true).trigger('change');
+        } else {
+            preSelect.prop('disabled', false).trigger('change');
+        }
+
+        if ($('#id_pre').val()) {
+            groupSelect.prop('disabled', true).trigger('change');
+        } else {
+            groupSelect.prop('disabled', false).trigger('change');
+        }
+    }
+
+    // Initial check
+    toggleFields();
+
+    // Add event listeners
+    $('#id_group').on('change', toggleFields);
+    $('#id_pre').on('change', toggleFields);
+});
+</script>
+
+{% endblock %}
