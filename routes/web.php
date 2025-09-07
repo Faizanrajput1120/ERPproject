@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ChartOfAccountController;
+use App\Http\Controllers\ManageMigration;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('ERPLive')->group(function () {
@@ -10,7 +11,7 @@ Route::prefix('ERPLive')->group(function () {
     Route::get('', function () {
         return view('full-width-light.index');
     });
-
+    Route::get('migrate',[  LevelController::class,'index'])->name('migrate');
     // Custom print route (always place BEFORE resource)
     Route::get('levels/print', [LevelController::class, 'printTree'])->name('levels.print');
 
