@@ -10,11 +10,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chart_of_accounts', function (Blueprint $table) {
-            $table->id(); // acc_id
+            $table->id('acc_id'); // acc_id
             $table->string('acc_name', 100);
 
             // Foreign key to Level
-            $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
+          $table->unsignedBigInteger('level_id');
+            $table->foreign('level_id')->references('level_id')->on('levels');
 
             $table->timestamps();
         });

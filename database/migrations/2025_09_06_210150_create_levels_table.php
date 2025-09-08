@@ -10,12 +10,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('levels', function (Blueprint $table) {
-            $table->id(); // level_id
+            $table->id('level_id'); // level_id
             $table->string('level_title')->default('No Title');
 
             // Foreign keys
             $table->foreignId('group_id')->nullable()->constrained('groups')->onDelete('cascade');
-            $table->foreignId('pre_id')->nullable()->constrained('levels')->onDelete('cascade');
+            $table->unsignedBigInteger('pre_id')->nullable();
+            $table->foreign('pre_id')->references('level_id')->on('levels');
+
+            
 
             $table->timestamps();
         });
