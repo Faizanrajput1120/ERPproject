@@ -66,7 +66,10 @@ class LevelController extends Controller
     {
        $accExist = ChartOfAccount::where('level_id', $level->level_id)->exists();
      if($accExist){
-        dd("WORKING");
+        return redirect()->back()->with('error', 'This Level is used in Chart of Account');
+    }
+    $accExist = Level::where('level_id', $level->level_id)->exists();
+     if($accExist){
         return redirect()->back()->with('error', 'This Level is used in Chart of Account');
     }
         
@@ -82,5 +85,32 @@ class LevelController extends Controller
     return $pdf->download('accounts_hierarchy.pdf');
 }
 
+    // public function printTree()
+    // {
+    //     $levels = Level::with('group')->get();
 
+    //     // Build tree
+    //     $lookup = [];
+    //     foreach ($levels as $lvl) {
+    //         $lookup[$lvl->level_id] = [
+    //             'level_id' => $lvl->level_id,
+    //             'level_title' => $lvl->level_title,
+    //             'group_name' => $lvl->group->name ?? '-',
+    //             'pre_id' => $lvl->pre_id,
+    //             'children' => []
+    //         ];
+    //     }
+
+    //     $roots = [];
+    //     foreach ($lookup as &$lvl) {
+    //         if ($lvl['pre_id'] && isset($lookup[$lvl['pre_id']])) {
+    //             $lookup[$lvl['pre_id']]['children'][] = &$lvl;
+    //         } else {
+    //             $roots[] = &$lvl;
+    //         }
+    //     }
+
+    //     $pdf = Pdf::loadView('levels.levels_pdf', compact('roots'));
+    //     return $pdf->download('levels_tree.pdf');
+    // }
 }
