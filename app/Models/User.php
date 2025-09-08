@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'fk_cid',
+        'role',
     ];
 
     /**
@@ -42,4 +44,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    // Relationship: User belongs to a workspace
+    public function workspace()
+    {
+        return $this->belongsTo(Workspace::class, 'fk_cid', 'cid');
+    }
+     // Relationship: User has many rights
+    public function rights()
+    {
+        return $this->hasMany(Rights::class, 'fk_userid');
+    }
+
 }

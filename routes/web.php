@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ChartOfAccountController;
 use App\Http\Controllers\ManageMigration;
+use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\Permissionscontroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,7 +27,7 @@ Route::prefix('ERPLive')->group(function () {
     // Home route
     Route::get('/dashboard', function () {
         return view('full-width-light.index');
-    });
+    })->name('dashboard');
 
     // Migration route
     Route::get('migrate', [ManageMigration::class, 'index'])->name('migrate');
@@ -36,6 +38,19 @@ Route::prefix('ERPLive')->group(function () {
     // Resource routes
     Route::resource('levels', LevelController::class)->except(['show']);
     Route::resource('chart-of-accounts', ChartOfAccountController::class);
+
+    
+  Route::get('/workspace', [WorkspaceController::class, 'index'])->name('workspace.index');
+  Route::get('/workspace/create', [WorkspaceController::class, 'create'])->name('workspace.create');
+  Route::post('/workspace', [WorkspaceController::class, 'store'])->name('workspace.stores');
+  Route::post('/workspace/create-admin', [WorkspaceController::class, 'createAdmin'])->name('workspace.createAdmin');
+  Route::post('/workspace/create-user', [WorkspaceController::class, 'createUser'])->name('workspace.createUser');
+
+    // Permissions management
+  Route::resource('permissions', Permissionscontroller::class)->only(['index', 'edit', 'update']);
+
+
+
 
 });
 

@@ -364,7 +364,48 @@
 		
 		<!-- Left Sidebar Menu -->
 		<div class="fixed-sidebar-left">
+			
 			<ul class="nav navbar-nav side-nav nicescroll-bar">
+				<!-- Workspace & User Management Sidebar Items -->
+				<li class="navigation-header">
+					<span>Set up</span> 
+					<i class="zmdi zmdi-more"></i>
+				</li>
+				<li>
+					<a href="javascript:void(0);" data-toggle="collapse" data-target="#workspace_dr">
+						<div class="pull-left"><i class="zmdi zmdi-city mr-20"></i><span class="right-nav-text">Workspace</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="workspace_dr" class="collapse collapse-level-1">
+						<li>
+							<a href="{{ route('workspace.index') }}">Manage Workspaces</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);" data-toggle="collapse" data-target="#user_mgmt_dr">
+						<div class="pull-left"><i class="zmdi zmdi-accounts mr-20"></i><span class="right-nav-text">User Management</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="user_mgmt_dr" class="collapse collapse-level-1">
+						<li>
+							<a href="{{ route('workspace.create') }}">Create workspace</a>
+						</li>
+						<li>
+							<a href="{{ route('permissions.index') }}">Permissions</a>
+						</li>
+						
+					</ul>
+				</li>
+
+
+
+
+
+
+
 				<li class="navigation-header">
 					<span>Modules</span> 
 					<i class="zmdi zmdi-more"></i>
