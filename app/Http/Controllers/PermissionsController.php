@@ -13,7 +13,7 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $users = User::with('rights')->get();
+    $users = User::with('rights')->where('role', 'user')->get();
         return view('permissions.index', compact('users'));
     }
 
@@ -24,7 +24,7 @@ class PermissionsController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        $modules = ['chart-of-accounts', 'levels', 'workspace', 'users'];
+        $modules = ['chart-of-accounts', 'levels'];
         $rights = ['write', 'read', 'edit', 'erase'];
 
         // Key rights by module name for easy access in Blade
@@ -40,7 +40,7 @@ class PermissionsController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        $modules = ['chart-of-accounts', 'levels', 'workspace', 'users'];
+        $modules = ['chart-of-accounts', 'levels'];
         $rights = ['write', 'read', 'edit', 'erase'];
 
         // Remove old rights

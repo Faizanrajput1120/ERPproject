@@ -14,9 +14,9 @@ class Workspace extends Model
 
     // Relationship: Workspace has many users
     public function users()
-    {
-        return $this->hasMany(User::class, 'fk_cid', 'cid');
-    }
+{
+    return $this->hasMany(User::class, 'fk_cid', 'cid')->where('role', 'user');
+}
 
     // Relationship: Workspace has many admins (users with role 'admin')
     public function admins()

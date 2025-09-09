@@ -43,16 +43,15 @@ Route::prefix('ERPLive')->group(function () {
   Route::get('/workspace', [WorkspaceController::class, 'index'])->name('workspace.index');
   Route::get('/workspace/create', [WorkspaceController::class, 'create'])->name('workspace.create');
   Route::post('/workspace', [WorkspaceController::class, 'store'])->name('workspace.stores');
-  Route::post('/workspace/create-admin', [WorkspaceController::class, 'createAdmin'])->name('workspace.createAdmin');
-  Route::post('/workspace/create-user', [WorkspaceController::class, 'createUser'])->name('workspace.createUser');
 
     // Permissions management
-  Route::resource('permissions', Permissionscontroller::class)->only(['index', 'edit', 'update']);
+    Route::resource('permissions', Permissionscontroller::class)->only(['index', 'edit', 'update']);
 
+    // Workspace user creation routes
+    Route::get('/workspace/create-user', [WorkspaceController::class, 'showCreateUserForm'])->name('workspace.showCreateUserForm');
+    Route::post('/workspace/create-user', [WorkspaceController::class, 'createUser'])->name('workspace.createUser');
 
-
-
-});
+  });
 
 });
 require __DIR__.'/auth.php';

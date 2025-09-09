@@ -22,7 +22,7 @@
                         @foreach($rights as $right)
                             <td>
                                 <input type="checkbox" name="perm_{{ $module }}_{{ $right }}" value="1"
-                                    @if(isset($userPermissions[$module]) && $userPermissions[$module] == $right) checked @endif>
+                                    @if(isset($userRights[$module]) && $userRights[$module]->$right) checked @endif>
                             </td>
                         @endforeach
                     </tr>

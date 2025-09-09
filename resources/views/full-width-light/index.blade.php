@@ -365,40 +365,70 @@
 		<!-- Left Sidebar Menu -->
 		<div class="fixed-sidebar-left">
 			
-			<ul class="nav navbar-nav side-nav nicescroll-bar">
-				<!-- Workspace & User Management Sidebar Items -->
-				<li class="navigation-header">
-					<span>Set up</span> 
-					<i class="zmdi zmdi-more"></i>
-				</li>
-				<li>
-					<a href="javascript:void(0);" data-toggle="collapse" data-target="#workspace_dr">
-						<div class="pull-left"><i class="zmdi zmdi-city mr-20"></i><span class="right-nav-text">Workspace</span></div>
-						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
-						<div class="clearfix"></div>
-					</a>
-					<ul id="workspace_dr" class="collapse collapse-level-1">
+				<ul class="nav navbar-nav side-nav nicescroll-bar">
+					<!-- Workspace & User Management Sidebar Items -->
+					
+					@php
+						$user = Auth::user();
+						// Only include modules where user has 'read' right
+						$userReadModules = $user->rights->where('read', 1)->pluck('app_name')->toArray();
+					@endphp
+					@if($user->role === 'super_admin')
+					<li class="navigation-header">
+						<span>Set up</span> 
+						<i class="zmdi zmdi-more"></i>
+					</li>
 						<li>
-							<a href="{{ route('workspace.index') }}">Manage Workspaces</a>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#workspace_dr">
+								<div class="pull-left"><i class="zmdi zmdi-city mr-20"></i><span class="right-nav-text">Workspace</span></div>
+								<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+								<div class="clearfix"></div>
+							</a>
+							<ul id="workspace_dr" class="collapse collapse-level-1">
+								<li>
+									<a href="{{ route('workspace.create') }}">Create workspace</a>
+								</li>
+								<li>
+									<a href="{{ route('workspace.index') }}">Manage Workspaces</a>
+								</li>
+							</ul>
 						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:void(0);" data-toggle="collapse" data-target="#user_mgmt_dr">
-						<div class="pull-left"><i class="zmdi zmdi-accounts mr-20"></i><span class="right-nav-text">User Management</span></div>
-						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
-						<div class="clearfix"></div>
-					</a>
-					<ul id="user_mgmt_dr" class="collapse collapse-level-1">
 						<li>
-							<a href="{{ route('workspace.create') }}">Create workspace</a>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#user_mgmt_dr">
+								<div class="pull-left"><i class="zmdi zmdi-accounts mr-20"></i><span class="right-nav-text">User Management</span></div>
+								<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+								<div class="clearfix"></div>
+							</a>
+							<ul id="user_mgmt_dr" class="collapse collapse-level-1">
+								
+								<li>
+									<a href="{{ route('permissions.index') }}">Permissions</a>
+								</li>
+							</ul>
 						</li>
+					@elseif($user->role === 'admin')
+					<li class="navigation-header">
+						<span>Set up</span> 
+						<i class="zmdi zmdi-more"></i>
+					</li>
 						<li>
-							<a href="{{ route('permissions.index') }}">Permissions</a>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#user_mgmt_dr">
+								<div class="pull-left"><i class="zmdi zmdi-accounts mr-20"></i><span class="right-nav-text">User Management</span></div>
+								<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+								<div class="clearfix"></div>
+							</a>
+							<ul id="user_mgmt_dr" class="collapse collapse-level-1">
+								<li>
+									<a href="{{ route('workspace.index') }}">Create User</a>
+								
+								<li>
+									<a href="{{ route('permissions.index') }}">Permissions</a>
+								</li>
+							</ul>
 						</li>
-						
-					</ul>
-				</li>
+					@elseif($user->role === 'user')
+						{{-- Users never see Workspace or User Management sections --}}
+					@endif
 
 
 
@@ -406,27 +436,56 @@
 
 
 
-				<li class="navigation-header">
-					<span>Modules</span> 
-					<i class="zmdi zmdi-more"></i>
-				</li>
-				<li>
-					<a class="active" href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">Accounts</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-					<ul id="dashboard_dr" class="collapse collapse-level-1">
-						<li>
-							<a  href="{{ route('levels.index') }}">Levels</a>
+						<li class="navigation-header">
+							<span>Modules</span> 
+							<i class="zmdi zmdi-more"></i>
 						</li>
-						<li>
-							<a  class="active-page" href="{{ route('chart-of-accounts.index') }}">Chart of Accounts</a>
-						</li>
-						<li>
-							<a href="index3.html">Project</a>
-						</li>
-						<li>
-							<a href="profile.html">profile</a>
-						</li>
-					</ul>
-				</li>
+						@if($user->role === 'super_admin' || $user->role === 'admin')
+							<li>
+								<a class="active" href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">Accounts</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+								<ul id="dashboard_dr" class="collapse collapse-level-1">
+									<li>
+										<a  href="{{ route('levels.index') }}">Levels</a>
+									</li>
+									<li>
+										<a  class="active-page" href="{{ route('chart-of-accounts.index') }}">Chart of Accounts</a>
+									</li>
+									<li>
+										<a href="index3.html">Project</a>
+									</li>
+									<li>
+										<a href="profile.html">profile</a>
+									</li>
+								</ul>
+							</li>
+						@elseif($user->role === 'user')
+							@php
+								$modules = [
+									'levels' => ['name' => 'Levels', 'route' => 'levels.index'],
+									'chart-of-accounts' => ['name' => 'Chart of Accounts', 'route' => 'chart-of-accounts.index'],
+									'project' => ['name' => 'Project', 'route' => 'index3.html'],
+									'profile' => ['name' => 'profile', 'route' => 'profile.html'],
+								];
+							@endphp
+							@if(count($userReadModules))
+							<li>
+								<a class="active" href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">Accounts</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+								<ul id="dashboard_dr" class="collapse collapse-level-1">
+									@foreach($userReadModules as $modKey)
+										@if(isset($modules[$modKey]))
+											<li>
+												@if(Str::contains($modules[$modKey]['route'], 'index'))
+													<a href="{{ route($modules[$modKey]['route']) }}">{{ $modules[$modKey]['name'] }}</a>
+												@else
+													<a href="{{ $modules[$modKey]['route'] }}">{{ $modules[$modKey]['name'] }}</a>
+												@endif
+											</li>
+										@endif
+									@endforeach
+								</ul>
+							</li>
+							@endif
+						@endif
 				<li>
 					<a href="javascript:void(0);" data-toggle="collapse" data-target="#ecom_dr"><div class="pull-left"><i class="zmdi zmdi-shopping-basket mr-20"></i><span class="right-nav-text">E-Commerce</span></div><div class="pull-right"><span class="label label-success">hot</span></div><div class="clearfix"></div></a>
 					<ul id="ecom_dr" class="collapse collapse-level-1">

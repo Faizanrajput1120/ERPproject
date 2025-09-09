@@ -29,17 +29,34 @@
     </div>
 
     {{-- Company Users List --}}
-    <div class="card">
-        <div class="card-header">Users</div>
-        <div class="card-body">
-            <ul>
-                @forelse($users as $user)
-                    <li>{{ $user->name }} ({{ $user->email }})</li>
-                @empty
-                    <li>No Users yet</li>
-                @endforelse
-            </ul>
-        </div>
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+        <i class="bi bi-people-fill me-2"></i>
+        <strong>Company Users</strong>
     </div>
+    <div class="card-body p-0">
+        @if($users->count())
+            <ul class="list-group list-group-flush">
+                @foreach($users as $user)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-person-circle text-secondary me-2"></i>
+                            <strong>{{ $user->name }}</strong>
+                            <small class="text-muted d-block">{{ $user->email }}</small>
+                        </div>
+                        <span class="badge bg-light text-dark rounded-pill">
+                            {{ ucfirst($user->role ?? 'User') }}
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <div class="p-3 text-muted text-center">
+                <i class="bi bi-exclamation-circle me-1"></i> No users yet.
+            </div>
+        @endif
+    </div>
+</div>
+
 </div>
 @endsection
