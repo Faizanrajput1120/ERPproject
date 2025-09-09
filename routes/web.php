@@ -7,6 +7,8 @@ use App\Http\Controllers\ChartOfAccountController;
 use App\Http\Controllers\ManageMigration;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Permissionscontroller;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CashController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,7 @@ use App\Http\Controllers\Permissionscontroller;
 
 Route::prefix('ERPLive')->group(function () {
 
+ 
 
 
   Route::middleware(['auth'])->group(function () {
@@ -50,6 +53,20 @@ Route::prefix('ERPLive')->group(function () {
     // Workspace user creation routes
     Route::get('/workspace/create-user', [WorkspaceController::class, 'showCreateUserForm'])->name('workspace.showCreateUserForm');
     Route::post('/workspace/create-user', [WorkspaceController::class, 'createUser'])->name('workspace.createUser');
+    
+
+     // Payment routes
+  Route::resource('payments', PaymentController::class)->except(['show']);
+  Route::get('payments/reports', [PaymentController::class, 'reports'])->name('payments.reports');
+  Route::delete('payments/{id}/delete', [PaymentController::class, 'delete'])->name('payments.delete');
+
+  // Cash routes
+  Route::resource('cash', CashController::class)->except(['show']);
+  Route::get('cash/reports', [CashController::class, 'reports'])->name('cash.reports');
+  Route::delete('cash/{id}/delete', [CashController::class, 'delete'])->name('cash.delete');
+
+
+    
 
   });
 
